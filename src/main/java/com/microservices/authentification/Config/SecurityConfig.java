@@ -2,6 +2,7 @@ package com.microservices.authentification.Config;
 
 import com.microservices.authentification.Entity.AppUser;
 import com.microservices.authentification.Filters.AuthentificationFilter;
+import com.microservices.authentification.Filters.JWTauthorizationFilter;
 import com.microservices.authentification.Service.AuthServicesImp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +18,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -49,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         //ajouter un filtre
         http.addFilter(new AuthentificationFilter(authenticationManagerBean()));
+        http.addFilterBefore(new JWTauthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
 
     }
 
